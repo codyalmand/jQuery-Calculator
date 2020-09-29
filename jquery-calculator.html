@@ -93,6 +93,10 @@ let resultElement = $('#result');
 let currentOperator = "";
 
 $('button[value="clear"]').on('click', function (e) {
+  firstNumberElement.empty();
+  secondNumberElement.empty();
+  operatorElement.empty();
+  resultElement.empty();
   // Reset everything
 });
 
@@ -145,10 +149,29 @@ $('button.operator').on('click', function (e) {
 
 $('button.equal').on('click', function (e) {
   if (currentState === State.EnterSecondNumber) {
+    var firstNumber = parseInt(firstNumberElement.text());
+    var secondNumber = parseInt(secondNumberElement.text());
+    var results;
+      if (currentOperator === "plus"){
+        results = firstNumber + secondNumber;
+      }
+      else if (currentOperator === "minus") {
+        results = firstNumber - secondNumber;
+      }
+      else if (currentOperator === "times") {
+        results = firstNumber * secondNumber;
+      }
+      else if (currentOperator === "divide") {
+        results = firstNumber / secondNumber;
+      }
+      else if (currentOperator === "power") {
+        results = firstNumber ** secondNumber;
+      }
     // Get the contents of #first-number, #operator, and #second-number
     // Parse them
     // Perform the appropriate operation
     // Write the result to #result
+
   }
 });
 
