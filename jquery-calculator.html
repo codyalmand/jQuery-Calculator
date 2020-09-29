@@ -77,52 +77,58 @@
 
 $(document).ready(function() {
 
+// Enumerate all possible states
 const State = {
   EnterFirstNumber: 0,
   EnterOperator: 1,
   EnterSecondNumber: 2,
-  GetResult: 3,
 };
 
+// The current application state
 let currentState = State.EnterFirstNumber;
 
+// HTML elements we'll be referencing
 let firstNumberElement = $('#first-number');
 let operatorElement = $('#operator');
 let secondNumberElement = $('#second-number');
 let resultElement = $('#result');
+
+// The current operator being used
 let currentOperator = "";
 
+// When the clear button is clicked, clear all the output and reset the the current state
 $('button[value="clear"]').on('click', function (e) {
   firstNumberElement.empty();
   secondNumberElement.empty();
   operatorElement.empty();
   resultElement.empty();
-  // Reset everything
+  currentState = State.EnterFirstNumber;
 });
 
 $('button.number').on('click', function (e) {
   switch (currentState) {
+    // In this state we append to firstNumberElement
     case State.EnterFirstNumber:
-    
       var value = $(this).val();
       var currentText = firstNumberElement.text();
-      firstNumberElement.text(currentText+value);
+      firstNumberElement.text(currentText + value);
       break;
 
     case State.EnterSecondNumber:
       var value = $(this).val();
       var currentText = secondNumberElement.text();
-      secondNumberElement.text(currentText+value);
+      secondNumberElement.text(currentText + value);
       break;
 
     case State.EnterOperator:
+      // If we're supposed to be setting an operator but we enter a number, go to EnterSecondNumber state
       currentState = State.EnterSecondNumber;
+
+      // This is the same as the previous case
       var value = $(this).val();
       var currentText = secondNumberElement.text();
-      secondNumberElement.text(currentText+value);
+      secondNumberElement.text(currentText + value);
       console.log(value);
-      // Go to the EnterSecondNumber state 
-      // Append digit to #second-number
       break;
   }
 });
@@ -130,48 +136,46 @@ $('button.number').on('click', function (e) {
 $('button.operator').on('click', function (e) {
   switch (currentState) {
     case State.EnterOperator:
+      // Overwrite the previous operator
       var value = $(this).val();
       currentOperator= value;
       operatorElement.text($(this).text());
-      // Overwrite contents of #operator
       break;
 
     case State.EnterFirstNumber:
+      // In EnterFirstNumber state, if an operator is pressed, switch to the EnterOperator state
       currentState = State.EnterOperator;
+
+      // Same as previous case
       var value = $(this).val();
       currentOperator= value;
       operatorElement.text($(this).text());
-      // Go to the EnterOperator state 
-      // Overwrite contents or #operator
       break;
   }
 });
 
 $('button.equal').on('click', function (e) {
   if (currentState === State.EnterSecondNumber) {
+    // Get the numbers from their elements and parse them
     var firstNumber = parseInt(firstNumberElement.text());
     var secondNumber = parseInt(secondNumberElement.text());
-    var results;
-      if (currentOperator === "plus"){
-        results = firstNumber + secondNumber;
-      }
-      else if (currentOperator === "minus") {
-        results = firstNumber - secondNumber;
-      }
-      else if (currentOperator === "times") {
-        results = firstNumber * secondNumber;
-      }
-      else if (currentOperator === "divide") {
-        results = firstNumber / secondNumber;
-      }
-      else if (currentOperator === "power") {
-        results = firstNumber ** secondNumber;
-      }
-    // Get the contents of #first-number, #operator, and #second-number
-    // Parse them
-    // Perform the appropriate operation
-    // Write the result to #result
 
+    // Perform the appropriate operation and store the result
+    var results;
+    if (currentOperator === "plus"){
+      results = firstNumber + secondNumber;
+    } else if (currentOperator === "minus") {
+      results = firstNumber - secondNumber;
+    } else if (currentOperator === "times") {
+      results = firstNumber * secondNumber;
+    } else if (currentOperator === "divide") {
+      results = firstNumber / secondNumber;
+    } else if (currentOperator === "power") {
+      results = firstNumber ** secondNumber;
+    }
+  
+    // Write the result out to the resultElement
+    resultElement.text(results);
   }
 });
 
