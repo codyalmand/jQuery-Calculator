@@ -90,6 +90,7 @@ let firstNumberElement = $('#first-number');
 let operatorElement = $('#operator');
 let secondNumberElement = $('#second-number');
 let resultElement = $('#result');
+let currentOperator = "";
 
 $('button[value="clear"]').on('click', function (e) {
   // Reset everything
@@ -98,14 +99,24 @@ $('button[value="clear"]').on('click', function (e) {
 $('button.number').on('click', function (e) {
   switch (currentState) {
     case State.EnterFirstNumber:
-      // Append digit to #first-number
+    
+      var value = $(this).val();
+      var currentText = firstNumberElement.text();
+      firstNumberElement.text(currentText+value);
       break;
 
     case State.EnterSecondNumber:
-      // Append digit to #second-number
+      var value = $(this).val();
+      var currentText = secondNumberElement.text();
+      secondNumberElement.text(currentText+value);
       break;
 
     case State.EnterOperator:
+      currentState = State.EnterSecondNumber;
+      var value = $(this).val();
+      var currentText = secondNumberElement.text();
+      secondNumberElement.text(currentText+value);
+      console.log(value);
       // Go to the EnterSecondNumber state 
       // Append digit to #second-number
       break;
@@ -114,11 +125,18 @@ $('button.number').on('click', function (e) {
 
 $('button.operator').on('click', function (e) {
   switch (currentState) {
-    case State.EnterOperator: 
+    case State.EnterOperator:
+      var value = $(this).val();
+      currentOperator= value;
+      operatorElement.text($(this).text());
       // Overwrite contents of #operator
       break;
 
     case State.EnterFirstNumber:
+      currentState = State.EnterOperator;
+      var value = $(this).val();
+      currentOperator= value;
+      operatorElement.text($(this).text());
       // Go to the EnterOperator state 
       // Overwrite contents or #operator
       break;
