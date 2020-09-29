@@ -77,8 +77,57 @@
 
 $(document).ready(function() {
 
-// Your code here...
+const State = {
+  EnterFirstNumber: 0,
+  EnterOperator: 1,
+  EnterSecondNumber: 2,
+  GetResult: 3,
+};
 
+let currentState = State.EnterFirstNumber;
+
+$('button[value="clear"]').on('click', function (e) {
+  // Reset everything
+});
+
+$('button.number').on('click', function (e) {
+  switch (currentState) {
+    case State.EnterFirstNumber:
+      // Append digit to #first-number
+      break;
+
+    case State.EnterSecondNumber:
+      // Append digit to #second-number
+      break;
+
+    case State.EnterOperator:
+      // Go to the EnterSecondNumber state 
+      // Append digit to #second-number
+      break;
+  }
+});
+
+$('button.operator').on('click', function (e) {
+  switch (currentState) {
+    case State.EnterOperator: 
+      // Overwrite contents of #operator
+      break;
+
+    case State.EnterFirstNumber:
+      // Go to the EnterOperator state 
+      // Overwrite contents or #operator
+      break;
+  }
+});
+
+$('button.equal').on('click', function (e) {
+  if (currentState === State.EnterSecondNumber) {
+    // Get the contents of #first-number, #operator, and #second-number
+    // Parse them
+    // Perform the appropriate operation
+    // Write the result to #result
+  }
+});
 
 });
 
