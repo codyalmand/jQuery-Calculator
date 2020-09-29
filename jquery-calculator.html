@@ -82,6 +82,7 @@ const State = {
   EnterFirstNumber: 0,
   EnterOperator: 1,
   EnterSecondNumber: 2,
+  GetResult: 3,
 };
 
 // The current application state
@@ -156,6 +157,7 @@ $('button.operator').on('click', function (e) {
 
 $('button.equal').on('click', function (e) {
   if (currentState === State.EnterSecondNumber) {
+    currentState = State.GetResult;
     // Get the numbers from their elements and parse them
     var firstNumber = parseInt(firstNumberElement.text());
     var secondNumber = parseInt(secondNumberElement.text());
